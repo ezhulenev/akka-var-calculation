@@ -1,0 +1,3 @@
+package kkalc
+
+class Kkalc

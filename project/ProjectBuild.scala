@@ -3,7 +3,7 @@ import scala.language.postfixOps
 
 object BuildSettings {
 
-  val buildOrganization   =  "kkalculate"
+  val buildOrganization   =  "kkalc"
   val buildVersion        =  "0.0.1"
   val buildScalaVersion   =  "2.10.3"
 
@@ -43,7 +43,7 @@ object ProjectBuild extends Build {
     if (!release) s"$buildVersion-${sdf.format(cal.getTime)}-$sha" else buildVersion
   }
 
-  def KkalculateProject(name: String) = {
+  def KkalcProject(name: String) = {
     Project(id = name, base = file(name)).
       // Apply global settings
       settings(buildSettings:_*).
@@ -53,7 +53,7 @@ object ProjectBuild extends Build {
       settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*).
 
       // Versioning settings
-      settings(release                       := sys.props("kkalculate-release") == "true").
+      settings(release                       := sys.props("kkalc-release") == "true").
       settings(gitHeadCommitSha in ThisBuild := Process("git rev-parse --short HEAD").lines.head).
       settings(version in ThisBuild          := getVersion(release.value, gitHeadCommitSha.value)).
 
@@ -62,16 +62,16 @@ object ProjectBuild extends Build {
 
   }
 
-  lazy val root = Project("kkalculate", file(".")).
+  lazy val root = Project("kkalc", file(".")).
     settings(publish :=()).
     settings(publishLocal :=()).
     aggregate(example, core)
 
-  lazy val example = KkalculateProject("example").
+  lazy val example = KkalcProject("example").
     settings(libraryDependencies ++= Dependencies.example).
     dependsOn(core)
 
-  lazy val core = KkalculateProject("core").
+  lazy val core = KkalcProject("core").
     settings(libraryDependencies ++= Dependencies.core)
 
 }
