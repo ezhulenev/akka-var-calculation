@@ -1,0 +1,3 @@
+package kkalculate
+
+class Kkalculate
