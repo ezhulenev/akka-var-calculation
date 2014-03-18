@@ -84,10 +84,14 @@ object Dependencies {
     val Logback            = "1.0.13"
 
     // Scalaz
-    val Scalaz             = "7.0.3"
+    val Scalaz             = "7.0.6"
+
+    // Joda
+    val JodaTime           = "2.3"
+    val JodaConvert        = "1.5"
 
     // Akka
-    val Akka               = "2.3.0-RC4"
+    val Akka               = "2.3.0"
 
     // Test libraries
     val ScalaMock          = "3.1.RC1"
@@ -103,6 +107,10 @@ object Dependencies {
 
     // Scalaz
     val scalazCore          =  "org.scalaz"                 %% "scalaz-core"                 % V.Scalaz
+
+    // Joda
+    val jodaTime            =   "joda-time"                  % "joda-time"                   % V.JodaTime
+    val jodaConvert         =   "org.joda"                   % "joda-convert"                % V.JodaConvert
 
     // Akka libraries
     val akkaActor           =   "com.typesafe.akka"         %% "akka-actor"                  % V.Akka
@@ -123,8 +131,9 @@ object Dependencies {
 
   val example = Seq()
 
-  val core = Seq(Compile.slf4jApi, Compile.logback, Compile.akkaActor, Compile.akkaCluster, Compile.scalazCore,
-                 Test.scalaTest, Test.scalaMock, Test.akkaTestkit)
+  val core =
+    Seq(Compile.slf4jApi, Compile.logback, Compile.jodaTime, Compile.jodaConvert, Compile.akkaActor, Compile.akkaCluster, Compile.scalazCore) ++
+    Seq(Test.scalaTest, Test.scalaMock, Test.akkaTestkit)
 
 }
 
