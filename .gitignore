@@ -1,0 +1,37 @@
+logs
+project/project
+project/target
+project/boot
+target
+tmp
+assets/chartReport.txt
+.history
+dist
+.idea/
+.idea_modules/
+.DS_Store
+*.swp
+*.swo
+*.pyc
+*.iml
+xcuserdata/
+bin/tmp-desktop.styl
+lui-current.js
+lui-desktop-current.js
+RUNNING_PID
+
+# eclipse
+.classpath
+.project
+.scala_dependencies
+.settings
+.buildpath
+.target
+
+# vim
+.lvimrc
+
+# temp file
+.~*
+*~
+*.orig
