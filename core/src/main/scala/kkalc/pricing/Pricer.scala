@@ -21,9 +21,9 @@ trait Pricer[I <: Instrument] {
 }
 
 
-object Pricer extends Pricers
+object Pricer extends PricerImplicits
 
-trait Pricers {
+trait PricerImplicits {
 
   // Get price value from market factors
   implicit object EquityPricer extends Pricer[Equity] {

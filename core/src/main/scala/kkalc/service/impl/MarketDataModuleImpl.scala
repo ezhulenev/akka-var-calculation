@@ -14,7 +14,7 @@ trait MarketDataModuleImpl extends MarketDataModule {
   object marketData extends MarketData {
     private val log = LoggerFactory.getLogger(classOf[MarketData])
 
-    private val DateFormat = DateTimeFormat.forPattern("YYYY-MM-DD")
+    private val DateFormat = DateTimeFormat.forPattern("YYYY-MM-dd")
 
     private def tryLoad(ticker: String) = Try {
       val is = this.getClass.getResourceAsStream(s"/price/$ticker.csv")
@@ -41,7 +41,7 @@ trait MarketDataModuleImpl extends MarketDataModule {
     }
 
     def historicalPrices(equity: Equity, from: LocalDate, to: LocalDate) = {
-      log.trace(s"Get equity historical prices for '${equity.ticker}' from '$from' to '$to'")
+      log.debug(s"Get equity historical prices for '${equity.ticker}' from '$from' to '$to'")
 
       def inRange(price: HistoricalPrice): Boolean = {
         !price.date.isBefore(from) && !price.date.isAfter(to)

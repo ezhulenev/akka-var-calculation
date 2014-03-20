@@ -86,6 +86,9 @@ object Dependencies {
     // Scalaz
     val Scalaz             = "7.0.6"
 
+    // Spire
+    val Spire              = "0.7.1"
+
     // Joda
     val JodaTime           = "2.3"
     val JodaConvert        = "1.5"
@@ -107,6 +110,9 @@ object Dependencies {
 
     // Scalaz
     val scalazCore          =  "org.scalaz"                 %% "scalaz-core"                 % V.Scalaz
+
+    // Spire
+    val spire               =  "org.spire-math"             %% "spire"                       % V.Spire
 
     // Joda
     val jodaTime            =   "joda-time"                  % "joda-time"                   % V.JodaTime
@@ -132,7 +138,7 @@ object Dependencies {
   val example = Seq()
 
   val core =
-    Seq(Compile.slf4jApi, Compile.logback, Compile.jodaTime, Compile.jodaConvert, Compile.akkaActor, Compile.akkaCluster, Compile.scalazCore) ++
+    Seq(Compile.slf4jApi, Compile.logback, Compile.jodaTime, Compile.jodaConvert, Compile.akkaActor, Compile.akkaCluster, Compile.scalazCore, Compile.spire) ++
     Seq(Test.scalaTest, Test.scalaMock, Test.akkaTestkit)
 
 }
