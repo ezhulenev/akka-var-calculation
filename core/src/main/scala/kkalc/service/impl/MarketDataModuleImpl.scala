@@ -6,7 +6,7 @@ import org.joda.time.LocalDate
 import org.slf4j.LoggerFactory
 import scala.util.{Success, Failure, Try}
 import org.joda.time.format.DateTimeFormat
-import scalaz.{\/-, -\/}
+import scalaz.{\/, \/-, -\/}
 
 
 trait MarketDataModuleImpl extends MarketDataModule {
@@ -40,8 +40,8 @@ trait MarketDataModuleImpl extends MarketDataModule {
       prices.toVector
     }
 
-    override def historicalPrices(equity: Equity, from: LocalDate, to: LocalDate) = {
-      log.info(s"Get equity historical prices for '${equity.ticker}' from '$from' to '$to'")
+    def historicalPrices(equity: Equity, from: LocalDate, to: LocalDate) = {
+      log.trace(s"Get equity historical prices for '${equity.ticker}' from '$from' to '$to'")
 
       def inRange(price: HistoricalPrice): Boolean = {
         !price.date.isBefore(from) && !price.date.isAfter(to)
@@ -51,6 +51,10 @@ trait MarketDataModuleImpl extends MarketDataModule {
         case Success(prices) => \/-(prices.filter(inRange))
         case Failure(err) => -\/(MarketDataUnavailable(err))
       }
+    }
+
+    def historicalPrice(equity: Equity, date: LocalDate): MarketDataError \/ Option[HistoricalPrice] = {
+      historicalPrices(equity, date, date).map(_.headOption)
     }
   }
 }
