@@ -1,8 +1,8 @@
 package kkalc.pricing
 
 import kkalc.model.{Instrument, Equity, Position, Portfolio}
-import scalaz._, syntax.apply._
 import kkalc.pricing.PortfolioPricingError.UnderlyingPricingErrors
+import scalaz._, syntax.apply._
 
 sealed trait PortfolioPricingError
 

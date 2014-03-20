@@ -1,11 +1,11 @@
 package kkalc.service.impl
 
-import kkalc.service.MarketDataModule
 import kkalc.model.{HistoricalPrice, Equity}
+import kkalc.service.MarketDataModule
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 import org.slf4j.LoggerFactory
 import scala.util.{Success, Failure, Try}
-import org.joda.time.format.DateTimeFormat
 import scalaz.{\/, \/-, -\/}
 
 

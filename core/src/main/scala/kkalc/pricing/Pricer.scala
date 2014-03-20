@@ -1,10 +1,10 @@
 package kkalc.pricing
 
 import kkalc.model.{Equity, Instrument}
-import scalaz.{-\/, \/-, \/}
 import kkalc.pricing.MarketFactor.Price
 import kkalc.pricing.PricingError.MissingMarketFactor
 import scala.annotation.implicitNotFound
+import scalaz.{-\/, \/-, \/}
 
 sealed trait PricingError
 

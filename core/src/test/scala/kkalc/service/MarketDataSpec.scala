@@ -1,9 +1,9 @@
 package kkalc.service
 
-import org.scalatest.{GivenWhenThen, FlatSpec}
-import kkalc.service.impl.MarketDataModuleImpl
 import kkalc.model.Equity
+import kkalc.service.impl.MarketDataModuleImpl
 import org.joda.time.LocalDate
+import org.scalatest.{GivenWhenThen, FlatSpec}
 
 class MarketDataSpec extends FlatSpec with GivenWhenThen with MarketDataModuleImpl {
 

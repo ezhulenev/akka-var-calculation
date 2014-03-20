@@ -1,7 +1,7 @@
 package kkalc.pricing
 
-import kkalc.pricing.MarketFactor.Price
 import kkalc.model.Equity
+import kkalc.pricing.MarketFactor.Price
 
 sealed trait MarketFactor
 

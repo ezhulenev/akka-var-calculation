@@ -1,12 +1,12 @@
 package kkalc.pricing
 
-import org.scalatest.FlatSpec
-import kkalc.model.{Portfolio, Position, Equity}
-import org.joda.time.LocalDate
 import kkalc.HistoricalMarketFactors
-import kkalc.service.impl.MarketDataModuleImpl
-import kkalc.pricing.PortfolioPricingError.UnderlyingPricingErrors
+import kkalc.model.{Portfolio, Position, Equity}
 import kkalc.pricing.MarketFactor.Price
+import kkalc.pricing.PortfolioPricingError.UnderlyingPricingErrors
+import kkalc.service.impl.MarketDataModuleImpl
+import org.joda.time.LocalDate
+import org.scalatest.FlatSpec
 
 class PortfolioPricerSpec extends FlatSpec {
 

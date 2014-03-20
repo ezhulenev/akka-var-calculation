@@ -1,10 +1,10 @@
 package kkalc
 
-import org.scalatest.FlatSpec
-import kkalc.service.impl.MarketDataModuleImpl
-import org.joda.time.LocalDate
 import kkalc.model.Equity
 import kkalc.pricing.MarketFactor.Price
+import kkalc.service.impl.MarketDataModuleImpl
+import org.joda.time.LocalDate
+import org.scalatest.FlatSpec
 
 class HistoricalMarketFactorsSpec extends FlatSpec {
 

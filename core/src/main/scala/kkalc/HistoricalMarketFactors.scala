@@ -1,10 +1,10 @@
 package kkalc
 
-import org.joda.time.LocalDate
-import kkalc.service.MarketDataModule
-import kkalc.pricing.MarketFactors
-import org.slf4j.LoggerFactory
 import kkalc.model.Equity
+import kkalc.pricing.MarketFactors
+import kkalc.service.MarketDataModule
+import org.joda.time.LocalDate
+import org.slf4j.LoggerFactory
 
 abstract class HistoricalMarketFactors(date: LocalDate) extends MarketFactors with MarketDataModule {
   private[this] val log = LoggerFactory.getLogger(classOf[HistoricalMarketFactors])
