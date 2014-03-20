@@ -34,7 +34,9 @@ trait VolatilityOps {
   private[this] val VolatilityAnnualizationFactor = BigDecimal(Math.sqrt(260))
 
   protected def volatility(prices: Vector[HistoricalPrice], calc: HistoricalPrice => BigDecimal = _.adjusted): BigDecimal = {
-    stddev(diff(prices.map(calc))) * VolatilityAnnualizationFactor
+    val loge = implicitly[Trig[BigDecimal]].e.log()
+    def ln(x: BigDecimal) = x.log() / loge
+    stddev(diff(prices.map(calc)).map(ln)) * VolatilityAnnualizationFactor
   }
 
   private[this] def mean[A: Numeric](xs: Vector[A]): A = {

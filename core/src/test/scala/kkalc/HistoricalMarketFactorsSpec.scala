@@ -22,6 +22,7 @@ class HistoricalMarketFactorsSpec extends FlatSpec with ShouldMatchers {
 
     val volatilityFactor = marketFactors(Volatility(AAPL))
     assert(volatilityFactor.isDefined)
-    volatilityFactor.get.toDouble should (be >= 0.502 and be <= 0.503)
+    println(volatilityFactor)
+    volatilityFactor.get.toDouble should (be >= 0.505 and be <= 0.506)
   }
 }
