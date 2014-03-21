@@ -23,7 +23,7 @@ object PricingError {
  */
 @implicitNotFound(msg = "Can't find pricer for instrument type '${I}'")
 trait Pricer[I <: Instrument] {
-  def price(instrument: I)(implicit factors: MarketFactors): PricingError \/ BigDecimal
+  def price(instrument: I)(implicit factors: MarketFactors): PricingError \/ Double
 }
 
 
@@ -33,7 +33,7 @@ trait PricerImplicits {
 
   // Get price value from market factors
   implicit object EquityPricer extends Pricer[Equity] {
-    def price(equity: Equity)(implicit factors: MarketFactors): PricingError \/ BigDecimal = {
+    def price(equity: Equity)(implicit factors: MarketFactors): PricingError \/ Double = {
       val priceFactor = Price(equity)
       factors(priceFactor) map (v => \/-(v)) getOrElse -\/(MissingMarketFactors(nels(priceFactor)))
     }
@@ -50,20 +50,20 @@ trait PricerImplicits {
     import spire.math._
 
     private[pricing] case class Parameters(daysToMaturity: Int,
-                                  spot: BigDecimal,
-                                  strike: BigDecimal,
-                                  rate: BigDecimal,
-                                  sigma: BigDecimal) {
-      def timeToMaturity = daysToMaturity / BigDecimal(365)
+                                  spot: Double,
+                                  strike: Double,
+                                  rate: Double,
+                                  sigma: Double) {
+      def timeToMaturity = daysToMaturity / 365.0
     }
     
-    override def price(option: EquityOption)(implicit factors: MarketFactors): PricingError \/ BigDecimal = {
+    override def price(option: EquityOption)(implicit factors: MarketFactors): PricingError \/ Double = {
 
-      def factor(factor: MarketFactor): MissingMarketFactors \/ BigDecimal = {
+      def factor(factor: MarketFactor): MissingMarketFactors \/ Double = {
         factors(factor).map(v => \/-(v)) getOrElse -\/(MissingMarketFactors(nels(factor)))
       }
 
-      def parameters(equity: Equity, strike: BigDecimal, maturity: LocalDate): PricingError \/ Parameters = {
+      def parameters(equity: Equity, strike: Double, maturity: LocalDate): PricingError \/ Parameters = {
         import scalaz.syntax.applicative._
 
 
@@ -86,10 +86,10 @@ trait PricerImplicits {
     }
 
     private[this] val normalDistribution = new NormalDistributionImpl(0, 1)
-    private[this] val loge = implicitly[Trig[BigDecimal]].e.log()
-    private[this] def ln(x: BigDecimal) = x.log() / loge
+    private[this] val loge = implicitly[Trig[Double]].e.log()
+    private[this] def ln(x: Double) = x.log() / loge
 
-    private[this] def d1(parameters: Parameters): BigDecimal = {
+    private[this] def d1(parameters: Parameters): Double = {
       import parameters._
 
       val l = 1 / (sigma * sqrt(timeToMaturity))
@@ -98,7 +98,7 @@ trait PricerImplicits {
       l * r
     }
 
-    private[this] def d2(parameters: Parameters): BigDecimal = {
+    private[this] def d2(parameters: Parameters): Double = {
       import parameters._
 
       val l = 1 / (sigma * sqrt(timeToMaturity))
@@ -107,9 +107,9 @@ trait PricerImplicits {
       l * r
     }
 
-    private[this] def N(v: BigDecimal) = normalDistribution.cumulativeProbability(v.toDouble)
+    private[this] def N(v: Double) = normalDistribution.cumulativeProbability(v.toDouble)
 
-    private[pricing] def call(parameters: Parameters): BigDecimal = {
+    private[pricing] def call(parameters: Parameters): Double = {
       import parameters._
 
       val D1 = d1(parameters)
@@ -118,7 +118,7 @@ trait PricerImplicits {
       N(D1) * spot - N(D2) * strike * exp(-1 * rate * timeToMaturity)
     }
 
-    private[pricing] def put(parameters: Parameters): BigDecimal = {
+    private[pricing] def put(parameters: Parameters): Double = {
       import parameters._
 
       val D1 = d1(parameters)

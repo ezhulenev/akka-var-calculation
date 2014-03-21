@@ -1,4 +1,4 @@
-package kkalc.service.impl
+package kkalc.service.historical
 
 import kkalc.model.{HistoricalPrice, Equity}
 import kkalc.service.MarketDataModule
@@ -9,7 +9,7 @@ import scala.util.{Success, Failure, Try}
 import scalaz.{\/, \/-, -\/}
 
 
-trait MarketDataModuleImpl extends MarketDataModule {
+trait HistoricalMarketData extends MarketDataModule {
 
   object marketData extends MarketData {
     private val log = LoggerFactory.getLogger(classOf[MarketData])
@@ -26,12 +26,12 @@ trait MarketDataModuleImpl extends MarketDataModule {
       val prices = split map {
         case line if line.length == 7 => HistoricalPrice(
           DateFormat.parseLocalDate(line(0).drop(1).dropRight(1)),
-          BigDecimal(line(1)),
-          BigDecimal(line(2)),
-          BigDecimal(line(3)),
-          BigDecimal(line(4)),
-          BigDecimal(line(5)),
-          BigDecimal(line(6)))
+          line(1).toDouble,
+          line(2).toDouble,
+          line(3).toDouble,
+          line(4).toDouble,
+          line(5).toDouble,
+          line(6).toDouble)
 
 
         case s => sys.error(s"Can't parse price line '$s'")

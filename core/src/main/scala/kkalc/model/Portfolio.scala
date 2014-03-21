@@ -1,7 +1,7 @@
 package kkalc.model
 
+import scalaz.NonEmptyList
+
 case class Position(instrument: Instrument, n: Int)
 
-case class Portfolio(positions: Vector[Position]) {
-  assume(!positions.isEmpty, "Portfolio positions can't be empty")
-}
+case class Portfolio(positions: NonEmptyList[Position])

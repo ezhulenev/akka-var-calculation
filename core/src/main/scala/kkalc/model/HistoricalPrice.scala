@@ -3,9 +3,9 @@ package kkalc.model
 import org.joda.time.LocalDate
 
 case class HistoricalPrice(date: LocalDate,
-                           open: BigDecimal,
-                           high: BigDecimal,
-                           low: BigDecimal,
-                           close: BigDecimal,
-                           volume: BigDecimal,
-                           adjusted: BigDecimal)
+                           open: Double,
+                           high: Double,
+                           low: Double,
+                           close: Double,
+                           volume: Double,
+                           adjusted: Double)

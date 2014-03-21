@@ -18,33 +18,33 @@ object MarketFactor {
 }
 
 trait MarketFactors {
-  def apply(factor: MarketFactor): Option[BigDecimal] = factor match {
+  def apply(factor: MarketFactor): Option[Double] = factor match {
     case Price(equity) => price(equity)
     case Volatility(equity) => volatility(equity)
     case DaysToMaturity(maturity) => daysToMaturity(maturity)
     case RiskFreeRate => riskFreeRate
   }
 
-  protected def price(equity: Equity): Option[BigDecimal]
+  protected def price(equity: Equity): Option[Double]
 
-  protected def volatility(equity: Equity): Option[BigDecimal]
+  protected def volatility(equity: Equity): Option[Double]
 
-  protected def daysToMaturity(maturity: LocalDate): Option[BigDecimal]
+  protected def daysToMaturity(maturity: LocalDate): Option[Double]
 
-  protected def riskFreeRate: Option[BigDecimal]
+  protected def riskFreeRate: Option[Double]
 }
 
-trait VolatilityOps {
+trait HistoricalVolatility {
 
   import spire.algebra.Trig
   import spire.implicits._
   import spire.math._
 
-  private[this] val VolatilityAnnualizationFactor = BigDecimal(Math.sqrt(260))
+  private[this] val VolatilityAnnualizationFactor = Math.sqrt(260)
 
-  protected def volatility(prices: Vector[HistoricalPrice], calc: HistoricalPrice => BigDecimal = _.adjusted): BigDecimal = {
-    val loge = implicitly[Trig[BigDecimal]].e.log()
-    def ln(x: BigDecimal) = x.log() / loge
+  protected def volatility(prices: Vector[HistoricalPrice], calc: HistoricalPrice => Double = _.adjusted): Double = {
+    val loge = implicitly[Trig[Double]].e.log()
+    def ln(x: Double) = x.log() / loge
     stddev(diff(prices.map(calc)).map(ln)) * VolatilityAnnualizationFactor
   }
 
