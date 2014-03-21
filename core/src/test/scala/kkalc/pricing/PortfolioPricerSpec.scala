@@ -4,9 +4,11 @@ import kkalc.HistoricalMarketFactors
 import kkalc.model.{Portfolio, Position, Equity}
 import kkalc.pricing.MarketFactor.Price
 import kkalc.pricing.PortfolioPricingError.UnderlyingPricingErrors
+import kkalc.pricing.PricingError.MissingMarketFactors
 import kkalc.service.impl.MarketDataModuleImpl
 import org.joda.time.LocalDate
 import org.scalatest.FlatSpec
+import scalaz.NonEmptyList
 
 class PortfolioPricerSpec extends FlatSpec {
 
@@ -51,6 +53,6 @@ class PortfolioPricerSpec extends FlatSpec {
 
     val underlyingErrors = error.asInstanceOf[UnderlyingPricingErrors].errors
     assert(underlyingErrors.length == 1)
-    assert(underlyingErrors.head == PricingError.MissingMarketFactor(Price(NO_TICKER)))
+    assert(underlyingErrors.head == MissingMarketFactors(NonEmptyList(Price(NO_TICKER))))
   }
 }

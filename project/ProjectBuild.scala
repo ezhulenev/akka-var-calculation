@@ -86,8 +86,9 @@ object Dependencies {
     // Scalaz
     val Scalaz             = "7.0.6"
 
-    // Spire
+    // Math
     val Spire              = "0.7.1"
+    val CommonsMath        = "2.2"
 
     // Joda
     val JodaTime           = "2.3"
@@ -111,8 +112,9 @@ object Dependencies {
     // Scalaz
     val scalazCore          =  "org.scalaz"                 %% "scalaz-core"                 % V.Scalaz
 
-    // Spire
+    // Math
     val spire               =  "org.spire-math"             %% "spire"                       % V.Spire
+    val commonsMath         =  "org.apache.commons"          % "commons-math"                % V.CommonsMath
 
     // Joda
     val jodaTime            =   "joda-time"                  % "joda-time"                   % V.JodaTime
@@ -138,7 +140,7 @@ object Dependencies {
   val example = Seq()
 
   val core =
-    Seq(Compile.slf4jApi, Compile.logback, Compile.jodaTime, Compile.jodaConvert, Compile.akkaActor, Compile.akkaCluster, Compile.scalazCore, Compile.spire) ++
+    Seq(Compile.slf4jApi, Compile.logback, Compile.jodaTime, Compile.jodaConvert, Compile.akkaActor, Compile.akkaCluster, Compile.scalazCore, Compile.spire, Compile.commonsMath) ++
     Seq(Test.scalaTest, Test.scalaMock, Test.akkaTestkit)
 
 }

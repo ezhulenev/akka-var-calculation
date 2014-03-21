@@ -3,10 +3,10 @@ package kkalc
 import kkalc.model.Equity
 import kkalc.pricing.{VolatilityOps, MarketFactors}
 import kkalc.service.MarketDataModule
-import org.joda.time.LocalDate
+import org.joda.time.{Days, LocalDate}
 import org.slf4j.LoggerFactory
 
-abstract class HistoricalMarketFactors(date: LocalDate, volatilityHorizon: Int = 1000)
+abstract class HistoricalMarketFactors(date: LocalDate, rate: BigDecimal = 0.02, volatilityHorizon: Int = 1000)
   extends MarketFactors with VolatilityOps with MarketDataModule {
 
   private[this] val log = LoggerFactory.getLogger(classOf[HistoricalMarketFactors])
@@ -27,4 +27,13 @@ abstract class HistoricalMarketFactors(date: LocalDate, volatilityHorizon: Int =
 
     prices.map(p => volatility(p))
   }
+
+  override protected def daysToMaturity(maturity: LocalDate): Option[BigDecimal] = {
+    if (date.isBefore(maturity)) {
+      Some(BigDecimal(Days.daysBetween(date, maturity).getDays))
+
+    } else None
+  }
+
+  protected def riskFreeRate: Option[BigDecimal] = Some(rate)
 }

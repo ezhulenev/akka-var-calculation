@@ -1,7 +1,8 @@
 package kkalc.pricing
 
 import kkalc.model.{HistoricalPrice, Equity}
-import kkalc.pricing.MarketFactor.{Volatility, Price}
+import kkalc.pricing.MarketFactor.{RiskFreeRate, DaysToMaturity, Volatility, Price}
+import org.joda.time.LocalDate
 
 sealed trait MarketFactor
 
@@ -11,18 +12,26 @@ object MarketFactor {
 
   case class Volatility(equity: Equity) extends MarketFactor
 
+  case class DaysToMaturity(maturity: LocalDate) extends MarketFactor
+
+  case object RiskFreeRate extends MarketFactor
 }
 
 trait MarketFactors {
   def apply(factor: MarketFactor): Option[BigDecimal] = factor match {
     case Price(equity) => price(equity)
     case Volatility(equity) => volatility(equity)
+    case DaysToMaturity(maturity) => daysToMaturity(maturity)
+    case RiskFreeRate => riskFreeRate
   }
 
   protected def price(equity: Equity): Option[BigDecimal]
 
   protected def volatility(equity: Equity): Option[BigDecimal]
 
+  protected def daysToMaturity(maturity: LocalDate): Option[BigDecimal]
+
+  protected def riskFreeRate: Option[BigDecimal]
 }
 
 trait VolatilityOps {

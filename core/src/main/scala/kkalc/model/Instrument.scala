@@ -12,4 +12,4 @@ sealed trait EquityOption extends Instrument {
 
 case class CallOption(underlying: Equity, strike: BigDecimal, maturity: LocalDate) extends EquityOption
 
-case class PutOption(underlying: Equity) extends EquityOption
+case class PutOption(underlying: Equity, strike: BigDecimal, maturity: LocalDate) extends EquityOption
