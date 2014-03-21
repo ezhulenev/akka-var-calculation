@@ -9,6 +9,7 @@ import org.joda.time.{Days, LocalDate}
 import scalaz.NonEmptyList
 import scalaz.concurrent.Task
 import scalaz.stream.Process
+import scalaz.stream.io.resource
 
 trait HistoricalMarketFactorsGenerator extends MarketFactorsGeneratorModule with HistoricalMarketData with HistoricalVolatility {
 
@@ -35,7 +36,8 @@ trait HistoricalMarketFactorsGenerator extends MarketFactorsGeneratorModule with
         if (nextDay.isBefore(maturity)) Some(Days.daysBetween(nextDay, maturity).getDays) else None
     }
 
-    override def factors: Process[Task, MarketFactors] = scalaz.stream.io.resource(Task.delay(generator))(_ => Task.delay(())) {
+    override def factors: Process[Task, MarketFactors] = resource(Task.delay(generator))(
+      _ => Task.delay(())) {
       gen => Task {
         val correlated = equities.stream zip gen.nextVector().map(v => v)
         val generatedPrice: Map[Equity, Double] = correlated.toSeq.map({
