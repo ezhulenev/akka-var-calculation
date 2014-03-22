@@ -10,6 +10,6 @@ sealed trait EquityOption extends Instrument {
   def underlying: Equity
 }
 
-case class CallOption(underlying: Equity, strike: BigDecimal, maturity: LocalDate) extends EquityOption
+case class CallOption(underlying: Equity, strike: Double, maturity: LocalDate) extends EquityOption
 
-case class PutOption(underlying: Equity) extends EquityOption
+case class PutOption(underlying: Equity, strike: Double, maturity: LocalDate) extends EquityOption

@@ -1,4 +1,4 @@
-package kkalc.service.impl
+package kkalc.service.historical
 
 import kkalc.model.{HistoricalPrice, Equity}
 import kkalc.service.MarketDataModule
@@ -9,12 +9,12 @@ import scala.util.{Success, Failure, Try}
 import scalaz.{\/, \/-, -\/}
 
 
-trait MarketDataModuleImpl extends MarketDataModule {
+trait HistoricalMarketData extends MarketDataModule {
 
   object marketData extends MarketData {
     private val log = LoggerFactory.getLogger(classOf[MarketData])
 
-    private val DateFormat = DateTimeFormat.forPattern("YYYY-MM-DD")
+    private val DateFormat = DateTimeFormat.forPattern("YYYY-MM-dd")
 
     private def tryLoad(ticker: String) = Try {
       val is = this.getClass.getResourceAsStream(s"/price/$ticker.csv")
@@ -26,12 +26,12 @@ trait MarketDataModuleImpl extends MarketDataModule {
       val prices = split map {
         case line if line.length == 7 => HistoricalPrice(
           DateFormat.parseLocalDate(line(0).drop(1).dropRight(1)),
-          BigDecimal(line(1)),
-          BigDecimal(line(2)),
-          BigDecimal(line(3)),
-          BigDecimal(line(4)),
-          BigDecimal(line(5)),
-          BigDecimal(line(6)))
+          line(1).toDouble,
+          line(2).toDouble,
+          line(3).toDouble,
+          line(4).toDouble,
+          line(5).toDouble,
+          line(6).toDouble)
 
 
         case s => sys.error(s"Can't parse price line '$s'")
@@ -41,7 +41,7 @@ trait MarketDataModuleImpl extends MarketDataModule {
     }
 
     def historicalPrices(equity: Equity, from: LocalDate, to: LocalDate) = {
-      log.trace(s"Get equity historical prices for '${equity.ticker}' from '$from' to '$to'")
+      log.debug(s"Get equity historical prices for '${equity.ticker}' from '$from' to '$to'")
 
       def inRange(price: HistoricalPrice): Boolean = {
         !price.date.isBefore(from) && !price.date.isAfter(to)
