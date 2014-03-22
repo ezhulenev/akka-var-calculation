@@ -40,12 +40,10 @@ trait HistoricalVolatility {
   import spire.implicits._
   import spire.math._
 
-  private[this] val VolatilityAnnualizationFactor = Math.sqrt(260)
-
   protected def volatility(prices: Vector[HistoricalPrice], calc: HistoricalPrice => Double = _.adjusted): Double = {
     val loge = implicitly[Trig[Double]].e.log()
     def ln(x: Double) = x.log() / loge
-    stddev(diff(prices.map(calc)).map(ln)) * VolatilityAnnualizationFactor
+    stddev(diff(prices.map(calc)).map(ln))
   }
 
   private[this] def mean[A: Numeric](xs: Vector[A]): A = {

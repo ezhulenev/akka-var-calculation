@@ -49,12 +49,15 @@ trait PricerImplicits {
     import spire.implicits._
     import spire.math._
 
+    private[pricing] val VolatilityAnnualizationFactor = Math.sqrt(260)
+
     private[pricing] case class Parameters(daysToMaturity: Int,
                                   spot: Double,
                                   strike: Double,
-                                  rate: Double,
-                                  sigma: Double) {
+                                  riskFreeRate: Double,
+                                  volatility: Double) {
       def timeToMaturity = daysToMaturity / 365.0
+      def annualVolatility = volatility * VolatilityAnnualizationFactor
     }
     
     override def price(option: EquityOption)(implicit factors: MarketFactors): PricingError \/ Double = {
@@ -92,8 +95,8 @@ trait PricerImplicits {
     private[this] def d1(parameters: Parameters): Double = {
       import parameters._
 
-      val l = 1 / (sigma * sqrt(timeToMaturity))
-      val r = ln(spot / strike) + (rate + (sigma pow  2) / 2) * timeToMaturity
+      val l = 1 / (annualVolatility * sqrt(timeToMaturity))
+      val r = ln(spot / strike) + (riskFreeRate + (annualVolatility pow  2) / 2) * timeToMaturity
 
       l * r
     }
@@ -101,8 +104,8 @@ trait PricerImplicits {
     private[this] def d2(parameters: Parameters): Double = {
       import parameters._
 
-      val l = 1 / (sigma * sqrt(timeToMaturity))
-      val r = ln(spot / strike) + (rate - (sigma pow 2) / 2) * timeToMaturity
+      val l = 1 / (annualVolatility * sqrt(timeToMaturity))
+      val r = ln(spot / strike) + (riskFreeRate - (annualVolatility pow 2) / 2) * timeToMaturity
 
       l * r
     }
@@ -115,7 +118,7 @@ trait PricerImplicits {
       val D1 = d1(parameters)
       val D2 = d2(parameters)
 
-      N(D1) * spot - N(D2) * strike * exp(-1 * rate * timeToMaturity)
+      N(D1) * spot - N(D2) * strike * exp(-1 * riskFreeRate * timeToMaturity)
     }
 
     private[pricing] def put(parameters: Parameters): Double = {
@@ -124,7 +127,7 @@ trait PricerImplicits {
       val D1 = d1(parameters)
       val D2 = d2(parameters)
 
-      N(-1 * D2) * strike * exp(-1 * rate * timeToMaturity) - N(-1 * D1) * spot
+      N(-1 * D2) * strike * exp(-1 * riskFreeRate * timeToMaturity) - N(-1 * D1) * spot
     }
   }
 }

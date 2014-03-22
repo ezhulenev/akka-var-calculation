@@ -16,7 +16,7 @@ class OptionPricerSpec extends FlatSpec with ShouldMatchers with MockFactory wit
   val spot = 100
   val strike = 100
   val riskFreeRate = 0.05
-  val volatility = 0.25
+  val volatility = 0.25 / OptionPricer.VolatilityAnnualizationFactor
 
   val AAPL = Equity("AAPL")
 
