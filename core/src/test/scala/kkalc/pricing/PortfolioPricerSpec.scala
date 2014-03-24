@@ -1,6 +1,5 @@
 package kkalc.pricing
 
-import kkalc.HistoricalMarketFactors
 import kkalc.model.{Portfolio, Position, Equity}
 import kkalc.pricing.MarketFactor.Price
 import kkalc.pricing.PortfolioPricingError.UnderlyingPricingErrors

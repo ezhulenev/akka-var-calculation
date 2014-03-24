@@ -1,8 +1,14 @@
 package kkalc.pricing
 
-import kkalc.model.{Instrument, Equity, Position, Portfolio}
+import kkalc.model._
 import kkalc.pricing.PortfolioPricingError.UnderlyingPricingErrors
 import scalaz._, syntax.apply._
+import kkalc.model.Position
+import kkalc.model.Equity
+import scalaz.-\/
+import scalaz.\/-
+import kkalc.pricing.PortfolioPricingError.UnderlyingPricingErrors
+import kkalc.model.Portfolio
 
 sealed trait PortfolioPricingError
 
@@ -23,6 +29,7 @@ object PortfolioPricer {
     // Mark all positions to market
     val mtm: NonEmptyList[PricingError \/ Double] = portfolio.positions.map {
       case Position(equity: Equity, n) => martToMarket(equity).map( _ * n)
+      case Position(option: EquityOption, n) => martToMarket(option).map( _ * n)
     }
 
     // Sum all MTM values aggregating errors

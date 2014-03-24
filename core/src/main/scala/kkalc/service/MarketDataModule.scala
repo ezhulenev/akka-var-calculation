@@ -6,7 +6,7 @@ import scalaz.\/
 
 trait MarketDataModule {
 
-  def marketData: MarketData
+  protected def marketData: MarketData
 
 
   sealed trait MarketDataError
