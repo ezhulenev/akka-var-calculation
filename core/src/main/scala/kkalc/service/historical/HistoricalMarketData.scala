@@ -11,7 +11,7 @@ import scalaz.{\/, \/-, -\/}
 
 trait HistoricalMarketData extends MarketDataModule {
 
-  object marketData extends MarketData {
+  protected object marketData extends MarketData {
     private val log = LoggerFactory.getLogger(classOf[MarketData])
 
     private val DateFormat = DateTimeFormat.forPattern("YYYY-MM-dd")

@@ -1,16 +1,15 @@
 package kkalc.pricing
 
-import kkalc.HistoricalMarketFactors
 import kkalc.model.{Portfolio, Position, Equity}
 import kkalc.pricing.MarketFactor.Price
 import kkalc.pricing.PortfolioPricingError.UnderlyingPricingErrors
 import kkalc.pricing.PricingError.MissingMarketFactors
-import kkalc.service.historical.HistoricalMarketData
+import kkalc.service.historical.{HistoricalMarketFactors, HistoricalMarketData}
 import org.joda.time.LocalDate
 import org.scalatest.FlatSpec
 import scalaz.NonEmptyList
 
-class PortfolioPricerSpec extends FlatSpec {
+class PortfolioPricerSpec extends FlatSpec with HistoricalMarketFactors with HistoricalMarketData {
 
   val AAPL = Equity("AAPL")
   val Apple = Position(AAPL, 10)
@@ -21,7 +20,7 @@ class PortfolioPricerSpec extends FlatSpec {
   // Valuation date
   val date = new LocalDate(2007, 1, 3)
 
-  implicit val factors = new HistoricalMarketFactors(date) with HistoricalMarketData
+  implicit val factors = marketFactors(date)(MarketFactorsParameters())
 
   "Portfolio pricer" should "price portfolio with one position" in {
     val portfolio = Portfolio(NonEmptyList(Apple))
