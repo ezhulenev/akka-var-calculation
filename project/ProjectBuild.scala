@@ -79,6 +79,10 @@ object ProjectBuild extends Build {
 object Dependencies {
 
   object Versions {
+
+    val Guava              = "16.0.1"
+    val Findbugs           = "2.0.0"
+
     // Logging
     val Slf4j              = "1.7.5"
     val Logback            = "1.0.13"
@@ -105,6 +109,10 @@ object Dependencies {
 
   object Compile {
     import Dependencies.{Versions => V}
+
+
+    val guava               =   "com.google.guava"           % "guava"                       % V.Guava
+    val findbugs            =   "com.google.code.findbugs"   % "jsr305"                      % V.Findbugs
 
     // Logging
     val slf4jApi            =   "org.slf4j"                  % "slf4j-api"                   % V.Slf4j
@@ -144,7 +152,7 @@ object Dependencies {
   val core =
     Seq(
       Compile.slf4jApi, Compile.logback, Compile.jodaTime, Compile.jodaConvert, Compile.akkaActor, Compile.akkaCluster,
-      Compile.scalazCore, Compile.scalazStream, Compile.spire, Compile.commonsMath
+      Compile.scalazCore, Compile.scalazStream, Compile.spire, Compile.commonsMath, Compile.guava, Compile.findbugs
     ) ++
     Seq(Test.scalaTest, Test.scalaMock, Test.akkaTestkit)
 

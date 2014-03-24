@@ -18,7 +18,7 @@ trait PortfolioValueSimulation {
   def simulation(portfolio: Portfolio, simulations: Int): Channel[Task, MarketFactorsGenerator, Simulations]
 }
 
-abstract class MonteCarloMarketRiskCalculator(simulations: Int = 1000000, splitFactor: Int = 10)
+abstract class MonteCarloMarketRiskCalculator(simulations: Int = 1000000, splitFactor: Int = 10, concurrencyLevel: Int = 10)
   extends MarketRiskCalculator
   with MarketDataModule
   with MarketFactorsModule
@@ -74,7 +74,7 @@ abstract class MonteCarloMarketRiskCalculator(simulations: Int = 1000000, splitF
     val process = P.
       range(0, splitFactor).
       map(_ => generator).
-      through(simulationChannel).
+      concurrently(concurrencyLevel)(simulationChannel).
       runFoldMap(identity)
 
     // Produce market-risk object from initial value and simulated values

@@ -9,6 +9,7 @@ import scalaz.-\/
 import scalaz.\/-
 import kkalc.pricing.PortfolioPricingError.UnderlyingPricingErrors
 import kkalc.model.Portfolio
+import org.slf4j.LoggerFactory
 
 sealed trait PortfolioPricingError
 
@@ -21,7 +22,6 @@ object PortfolioPricingError {
 object PortfolioPricer {
 
   def price(portfolio: Portfolio)(implicit factors: MarketFactors): PortfolioPricingError \/ Double = {
-
     def martToMarket[I <: Instrument](instrument: I)(implicit pricer: Pricer[I]): PricingError \/ Double = {
       pricer.price(instrument)
     }

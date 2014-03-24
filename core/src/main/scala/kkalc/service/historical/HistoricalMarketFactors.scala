@@ -39,7 +39,7 @@ trait HistoricalMarketFactors extends MarketFactorsModule with MarketDataModule 
 
     override def factors: Process[Task, MarketFactors] = resource(Task.delay(generator))(
       _ => Task.delay(())) {
-      gen => Task {
+      gen => Task.delay {
         val correlated = equities.stream zip gen.nextVector().map(v => v)
         val generatedPrice: Map[Equity, Double] = correlated.toSeq.map({
           case (equity, randomValue) => (equity, price(equity) + randomValue * vol(equity))

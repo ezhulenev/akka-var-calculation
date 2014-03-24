@@ -9,6 +9,8 @@ import org.scalatest.{ShouldMatchers, FlatSpec}
 class HistoricalMarketFactorsSpec extends FlatSpec with ShouldMatchers with HistoricalMarketFactors with HistoricalMarketData { test =>
 
   val AAPL = Equity("AAPL")
+
+  implicit val params = MarketFactorsParameters()
   
   "Historical Market Factors" should "give access to historical price data" in {
     val marketFactors = test.marketFactors(new LocalDate(2007, 1, 3))

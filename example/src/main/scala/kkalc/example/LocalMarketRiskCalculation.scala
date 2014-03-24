@@ -1,11 +1,11 @@
 package kkalc.example
 
 import kkalc.model.{CallOption, Position, Portfolio, Equity}
-import scalaz.NonEmptyList.nels
-import kkalc.service.simulation.{LocalPortfolioValueSimulation, MonteCarloMarketRiskCalculator}
 import kkalc.service.historical.{HistoricalMarketData, HistoricalMarketFactors}
+import kkalc.service.simulation.{LocalPortfolioValueSimulation, MonteCarloMarketRiskCalculator}
 import org.joda.time.LocalDate
 import org.slf4j.LoggerFactory
+import scalaz.NonEmptyList.nels
 
 /**
  * Run MarketRisk calculation locally in single JVM
@@ -30,8 +30,6 @@ object LocalMarketRiskCalculation extends App {
     Position(IBM, 30),
     Position(CallOption(GS, 180, maturityDate), 10)
   ))
-
-
 
   object RiskCalculator
     extends MonteCarloMarketRiskCalculator(10000, 10)
