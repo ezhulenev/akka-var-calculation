@@ -100,7 +100,7 @@ object Dependencies {
     val JodaConvert        = "1.5"
 
     // Akka
-    val Akka               = "2.3.0"
+    val Akka               = "2.3.1"
 
     // Test libraries
     val ScalaMock          = "3.1.RC1"
