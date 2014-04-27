@@ -89,7 +89,7 @@ object Dependencies {
 
     // Scalaz
     val Scalaz             = "7.0.6"
-    val ScalazStream       = "snapshot-0.4"
+    val ScalazStream       = "0.4.1"
 
     // Math
     val Spire              = "0.7.1"
@@ -100,7 +100,7 @@ object Dependencies {
     val JodaConvert        = "1.5"
 
     // Akka
-    val Akka               = "2.3.1"
+    val Akka               = "2.3.2"
 
     // Test libraries
     val ScalaMock          = "3.1.RC1"
