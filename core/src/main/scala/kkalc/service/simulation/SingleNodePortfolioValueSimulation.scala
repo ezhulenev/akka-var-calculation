@@ -1,18 +1,22 @@
 package kkalc.service.simulation
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder
+
 import java.util.concurrent.Executors
+
 import kkalc.model.Portfolio
-import kkalc.pricing.PortfolioPricer
+import kkalc.pricing.{MarketFactorsGenerator, PortfolioPricer}
 import kkalc.service.MarketFactorsModule
+
 import org.slf4j.LoggerFactory
+
 import scalaz.concurrent.Task
 import scalaz.stream.io.channel
 
-trait LocalPortfolioValueSimulation extends PortfolioValueSimulation {
+trait SingleNodePortfolioValueSimulation extends PortfolioValueSimulation {
   self: MarketFactorsModule with MonteCarloMarketRiskCalculator =>
 
-  private[this] val log = LoggerFactory.getLogger(classOf[LocalPortfolioValueSimulation])
+  private[this] val log = LoggerFactory.getLogger(classOf[SingleNodePortfolioValueSimulation])
 
   private[this] lazy val executor = {
     val threadFactory = new ThreadFactoryBuilder().setNameFormat("simulation-pool-%d").setDaemon(true).build()

@@ -2,17 +2,14 @@ package kkalc.example
 
 import kkalc.model.{CallOption, Position, Portfolio, Equity}
 import kkalc.service.historical.{HistoricalMarketData, HistoricalMarketFactors}
-import kkalc.service.simulation.{LocalPortfolioValueSimulation, MonteCarloMarketRiskCalculator}
+import kkalc.service.simulation.{SingleNodePortfolioValueSimulation, MonteCarloMarketRiskCalculator}
 import org.joda.time.LocalDate
-import org.slf4j.LoggerFactory
 import scalaz.NonEmptyList.nels
 
 /**
- * Run MarketRisk calculation locally in single JVM
+ * Run MarketRisk calculation in single JVM
  */
-object LocalMarketRiskCalculation extends App {
-  private val log = LoggerFactory.getLogger(this.getClass)
-
+object SingleNodeMarketRiskCalculation extends App {
   val AMZN = Equity("AMZN")
   val AAPL = Equity("AAPL")
   val IBM = Equity("IBM")
@@ -33,15 +30,14 @@ object LocalMarketRiskCalculation extends App {
 
   object RiskCalculator
     extends MonteCarloMarketRiskCalculator(10000, 10)
-    with LocalPortfolioValueSimulation
+    with SingleNodePortfolioValueSimulation
     with HistoricalMarketFactors with HistoricalMarketData
-
 
   val start = System.currentTimeMillis()
   val marketRisk = RiskCalculator.marketRisk(portfolio, date)
   val end = System.currentTimeMillis()
 
-  log.info(s"Calculated marker risk in ${end - start} milliseconds; " +
+  println(s"Calculated marker risk in ${end - start} milliseconds; " +
     s"VaR(p = 0.95) = ${marketRisk.VaR(0.95)}, " +
     s"CVaR(p = 0.95) = ${marketRisk.conditionalVaR(0.95)}")
 

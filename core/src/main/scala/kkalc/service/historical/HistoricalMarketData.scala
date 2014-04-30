@@ -2,9 +2,11 @@ package kkalc.service.historical
 
 import kkalc.model.{HistoricalPrice, Equity}
 import kkalc.service.MarketDataModule
+
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.slf4j.LoggerFactory
+
 import scala.util.{Success, Failure, Try}
 import scalaz.{\/, \/-, -\/}
 
@@ -32,7 +34,6 @@ trait HistoricalMarketData extends MarketDataModule {
           line(4).toDouble,
           line(5).toDouble,
           line(6).toDouble)
-
 
         case s => sys.error(s"Can't parse price line '$s'")
       }

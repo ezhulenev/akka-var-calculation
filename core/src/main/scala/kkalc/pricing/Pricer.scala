@@ -1,14 +1,14 @@
 package kkalc.pricing
 
 import kkalc.model._
-import kkalc.pricing.MarketFactor.DaysToMaturity
-import kkalc.pricing.MarketFactor.Price
-import kkalc.pricing.MarketFactor.RiskFreeRate
-import kkalc.pricing.MarketFactor.Volatility
+import kkalc.pricing.MarketFactor._
 import kkalc.pricing.PricingError.MissingMarketFactors
+
 import org.apache.commons.math.distribution.NormalDistributionImpl
 import org.joda.time.LocalDate
+
 import scala.annotation.implicitNotFound
+
 import scalaz.NonEmptyList.nels
 import scalaz.{\/, NonEmptyList, -\/, \/-, ValidationNel}
 

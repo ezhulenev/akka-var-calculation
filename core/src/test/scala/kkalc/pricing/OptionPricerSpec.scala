@@ -2,10 +2,10 @@ package kkalc.pricing
 
 import kkalc.model.{PutOption, CallOption, Equity}
 import kkalc.pricing.MarketFactor.{RiskFreeRate, Volatility, DaysToMaturity, Price}
+import kkalc.pricing.PricingError.MissingMarketFactors
 import org.joda.time.LocalDate
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{ShouldMatchers, FlatSpec}
-import kkalc.pricing.PricingError.MissingMarketFactors
 import scalaz.NonEmptyList
 
 class OptionPricerSpec extends FlatSpec with ShouldMatchers with MockFactory with PricerImplicits {
