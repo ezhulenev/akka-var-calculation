@@ -6,43 +6,33 @@ import kkalc.service.{MarketDataModule, MarketFactorsModule}
 
 import org.joda.time.{Days, LocalDate}
 import org.slf4j.LoggerFactory
+import kkalc.pricing.OneDayMarketFactorsGenerator.CurrentFactors
 
 trait HistoricalMarketFactors extends MarketFactorsModule with MarketDataModule with HistoricalVolatility { module =>
 
   protected def oneDayMarketFactors(portfolio: Portfolio, date: LocalDate)
                                   (implicit parameters: MarketFactorsParameters): MarketFactorsGenerator = {
 
-    // Get equities
+    // Collect equities & underlying equities
     val equities = portfolio.positions.map(_.instrument).map {
       case e: Equity => e
       case o: EquityOption => o.underlying
     }.sortBy(_.ticker)
 
-    // Get prices at given date
-    val price: Map[Equity, Double] =
-      equities.
-        map(equity => marketData.historicalPrice(equity, date).
-        fold(
-          err => sys.error(s"Market data for $equity is unavailable, error = $err"),
-          priceO => priceO.map(price => (equity, price.adjusted)) getOrElse sys.error(s"Price for $equity at $date is not defined"))
-        ).list.toMap
+    val currentFactors: Map[Equity, CurrentFactors] = equities.list.map(equity => {
 
-    // Get prices with defined horizon
-    val historicalPrices: Map[Equity, Vector[HistoricalPrice]] =
-      equities.
-        map(equity => marketData.historicalPrices(equity, date.minusDays(parameters.horizon), date).
-        fold(
-          err => sys.error(s"Market data for $equity is unavailable, error = $err"),
-          prices => (equity, prices)
-        )).list.toMap
+      def error(err: MarketDataError) = sys.error(s"Market data for $equity is unavailable. Error: $err")
+      def adjustedPrice(h: Option[HistoricalPrice]) = h.map(_.adjusted) getOrElse sys.error(s"Price for $equity at $date is not defined")
 
-    // Calculate historical volatility
-    val vol: Map[Equity, Double] = historicalPrices.mapValues(prices => volatility(prices)).map(identity)
+      val price = marketData.historicalPrice(equity, date).fold(error, adjustedPrice)
+      val priceHistory = marketData.historicalPrices(equity, date.minusDays(parameters.horizon), date).fold(error, identity)
+      val vol = volatility(priceHistory)
 
-    // get prices history for covariance matrix calculation
-    val adjustedPrices = equities.map(equity => historicalPrices(equity).map(_.adjusted).toArray).stream.toArray
+      equity -> CurrentFactors(price, vol, priceHistory.map(_.adjusted))
 
-    new OneDayMarketFactorsGenerator(date, parameters.riskFreeRate, equities.list.toVector, price, vol, adjustedPrices)
+    })(scala.collection.breakOut)
+
+    new OneDayMarketFactorsGenerator(date, parameters.riskFreeRate, currentFactors)
   }
 
   protected def marketFactors(date: LocalDate)(implicit parameters: MarketFactorsParameters) = new MarketFactors {
