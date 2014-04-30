@@ -1,9 +1,11 @@
 package kkalc.service.simulation
 
 import kkalc.model.Portfolio
-import kkalc.pricing.PortfolioPricer
+import kkalc.pricing.{MarketFactorsGenerator, PortfolioPricer}
 import kkalc.service.{MarketDataModule, MarketFactorsModule, MarketRiskCalculator}
+
 import org.joda.time.LocalDate
+
 import scalaz.Monoid
 import scalaz.concurrent.Task
 import scalaz.stream._
@@ -19,10 +21,7 @@ trait PortfolioValueSimulation {
 }
 
 abstract class MonteCarloMarketRiskCalculator(simulations: Int = 1000000, splitFactor: Int = 10, concurrencyLevel: Int = 10)
-  extends MarketRiskCalculator
-  with MarketDataModule
-  with MarketFactorsModule
-  with PortfolioValueSimulation { calculator =>
+  extends MarketRiskCalculator with MarketDataModule with MarketFactorsModule with PortfolioValueSimulation { calculator =>
 
   case class Simulations(simulations: Vector[Double])
 

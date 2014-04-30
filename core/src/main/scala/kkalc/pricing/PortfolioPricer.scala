@@ -2,14 +2,8 @@ package kkalc.pricing
 
 import kkalc.model._
 import kkalc.pricing.PortfolioPricingError.UnderlyingPricingErrors
+
 import scalaz._, syntax.apply._
-import kkalc.model.Position
-import kkalc.model.Equity
-import scalaz.-\/
-import scalaz.\/-
-import kkalc.pricing.PortfolioPricingError.UnderlyingPricingErrors
-import kkalc.model.Portfolio
-import org.slf4j.LoggerFactory
 
 sealed trait PortfolioPricingError
 

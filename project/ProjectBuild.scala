@@ -89,7 +89,7 @@ object Dependencies {
 
     // Scalaz
     val Scalaz             = "7.0.6"
-    val ScalazStream       = "snapshot-0.4"
+    val ScalazStream       = "0.4.1"
 
     // Math
     val Spire              = "0.7.1"
@@ -100,7 +100,7 @@ object Dependencies {
     val JodaConvert        = "1.5"
 
     // Akka
-    val Akka               = "2.3.0"
+    val Akka               = "2.3.2"
 
     // Test libraries
     val ScalaMock          = "3.1.RC1"
@@ -133,6 +133,7 @@ object Dependencies {
     // Akka libraries
     val akkaActor           =   "com.typesafe.akka"         %% "akka-actor"                  % V.Akka
     val akkaCluster         =   "com.typesafe.akka"         %% "akka-cluster"                % V.Akka
+    val akkaSlf4j           =   "com.typesafe.akka"         %% "akka-slf4j"                  % V.Akka
 
   }
 
@@ -151,7 +152,7 @@ object Dependencies {
 
   val core =
     Seq(
-      Compile.slf4jApi, Compile.logback, Compile.jodaTime, Compile.jodaConvert, Compile.akkaActor, Compile.akkaCluster,
+      Compile.slf4jApi, Compile.logback, Compile.jodaTime, Compile.jodaConvert, Compile.akkaActor, Compile.akkaCluster, Compile.akkaSlf4j,
       Compile.scalazCore, Compile.scalazStream, Compile.spire, Compile.commonsMath, Compile.guava, Compile.findbugs
     ) ++
     Seq(Test.scalaTest, Test.scalaMock, Test.akkaTestkit)
