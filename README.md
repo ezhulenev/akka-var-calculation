@@ -1,5 +1,4 @@
-Akka Cluster for Value at Risk calculation
-=================
+## Akka Cluster for Value at Risk calculation
 
 Source code for blog posts:
 
