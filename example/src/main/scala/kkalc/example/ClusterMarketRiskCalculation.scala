@@ -72,8 +72,6 @@ object ClusterMarketRiskCalculation extends App {
   val marketRisk = RiskCalculator.marketRisk(portfolio, date)
   val end = System.currentTimeMillis()
 
-
-
   println(s"Calculated marker risk in ${end - start} milliseconds; " +
     s"VaR(p = 0.95) = ${marketRisk.VaR(0.95)}, " +
     s"CVaR(p = 0.95) = ${marketRisk.conditionalVaR(0.95)}")
@@ -86,5 +84,4 @@ object ClusterMarketRiskCalculation extends App {
 
   // and application
   System.exit(0)
-
 }
